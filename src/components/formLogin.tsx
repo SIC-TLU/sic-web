@@ -133,7 +133,7 @@ export default function FormLogin() {
             Log in
           </Button>
           <p className="text-center text-sm mt-1">
-                You already have an account?{' '}
+                You do not have an account?{' '}
             <Link href={"/register"} className="text-orange-500 hover:underline">
             Sign Up
             </Link>
