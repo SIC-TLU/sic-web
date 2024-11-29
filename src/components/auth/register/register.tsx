@@ -1,16 +1,15 @@
+import LogoSICRegister from "../logoSIC_register";
+import RegisterForm from "./formRegister";
 
 
-import FormLogin from "../formRegister";
-import LogoSIC from "../logoSIC_register";
-
-export default function Login() {
+export default function Register() {
   return (
     <div className="min-h-screen bg-[#141517] flex items-center justify-center flex-wrap">
       <div className="w-1/2 h-auto flex justify-center pb-10">
-        <LogoSIC />
+        <LogoSICRegister />
       </div>
       <div className="w-1/2 h-auto">
-        <FormLogin/>
+        <RegisterForm/>
       </div>
       
       <div className="absolute bottom-0 pb-8 text-center text-gray-500 text-xs">
