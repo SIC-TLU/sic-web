@@ -1,6 +1,5 @@
-import Register from "@/components/auth/register";
+import Register from "@/components/auth/register/register";
 
-export default function LoginPage() {
+export default function Page() {
   return <Register />;
 };
-    

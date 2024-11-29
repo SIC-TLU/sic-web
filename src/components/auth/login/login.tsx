@@ -1,11 +1,4 @@
-import Link from "next/link";
-import Form from "next/form";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
-
-import FormLogin from "../formLogin";
+import FormLogin from "./formLogin";
 import LogoSIC from "../logoSIC";
 
 export default function Login() {

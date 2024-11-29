@@ -9,7 +9,8 @@ export default function LogoSIC() {
           src="/logo.png"
           alt="SIC Logo"
           width={100}
-          height={10}
+          height={100}
+          priority
           className="h-[106px] w-[136px]"
         />
       </div>
@@ -17,9 +18,9 @@ export default function LogoSIC() {
       {/* Welcome Text */}
       <div>
         <h1 className="text-white text-3xl font-semibold mb-3">
-          Welcome to the <span className="text-orange-500">SIC</span>
+          Welcome back to <span className="text-orange-500">SIC</span>
         </h1>
-        <p className="text-white text-sm">Sign up to get ready for an exciting journey with SIC</p>
+        <p className="text-white text-sm">Student help student master technology</p>
       </div>
     </div>
   );

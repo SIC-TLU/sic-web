@@ -1,10 +1,5 @@
 "use client";
-import Link from "next/link";
-import { useState } from "react";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+
 import {
   Form,
   FormControl,
@@ -13,38 +8,56 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useState } from "react";
+import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card } from "./ui/card";
-import { Eye, EyeClosed } from "lucide-react";
+import { Eye, EyeOffIcon } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { registerForm, RegisterFormType } from "@/schemaValidations/auht.schema";
+import authApiRequest from "@/apiRequest/auth";
+import { showInfoToast } from "@/lib/ultils-client";
+import { useRouter } from "next/navigation";
 
-export default function FormLogin() {
+export default function RegisterForm() {
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setshowConfirmPassword] = useState(false);
 
   //Show/Hide password
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
 
-  //Object check
-  const formSchema = z.object({
-    email: z.string().email(),
-    username: z.string(),
-    password: z.string(),
-  });
+  //Show/Hide repassword
+  const toggleConfirmPasswordVisibility = () => {
+    setshowConfirmPassword((prevState) => !prevState);
+  };
 
   //Define your form
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<RegisterFormType>({
+    resolver: zodResolver(registerForm),
     defaultValues: {
       email: "",
       username: "",
       password: "",
+      confirmPassword: "",
     },
   });
   //Define a submit handler
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: RegisterFormType) {
+    const { username, email, password } = values
+    const result = await authApiRequest.register({ username, email, password })
+
+    if (result?.data) {
+      localStorage.setItem("userId", JSON.stringify(result.data._id))
+      showInfoToast({ description: result.message as string })
+      router.push("/auth/verify")
+    }
   }
+
   return (
     <Card className=" max-w-sm w-full bg-[#141517] border-0">
       <Form {...form}>
@@ -130,14 +143,47 @@ export default function FormLogin() {
                     onClick={togglePasswordVisibility}
                     className="absolute right-2 top-[50%] translate-y-[-50%] cursor-pointer text-white"
                   >
-                    {showPassword ? <Eye /> : <EyeClosed />}
+                    {showPassword ? <Eye className="w-5 h-5" /> : <EyeOffIcon className="w-5 h-5" />}
                   </span>
                 </div>
                 <FormMessage />
               </FormItem>
             )}
           />
-          
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <div className="relative">
+                  <FormLabel
+                    className="absolute bg-[#141517] p-2 top-[-50%] left-6 translate-y-[10%] text-white text-sm"
+                    style={{
+                      lineHeight: "0.5rem",
+                    }}
+                  >
+                    Confirm password
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      className="w-full bg-[#141517] text-white border border-gray-700 focus:outline-none focus:ring focus:ring-orange-500 py-5"
+                      type={showConfirmPassword ? "text" : "password"}
+                      name="pass"
+                      autoComplete="off"
+                    />
+                  </FormControl>
+                  <span
+                    onClick={toggleConfirmPasswordVisibility}
+                    className="absolute right-2 top-[50%] translate-y-[-50%] cursor-pointer text-white"
+                  >
+                    {showConfirmPassword ? <Eye className="w-5 h-5" /> : <EyeOffIcon className="w-5 h-5" />}
+                  </span>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <Button
             className=" w-full bg-orange-500 hover:bg-orange-600 text-white text-xl mb-2 py-5"
@@ -145,12 +191,12 @@ export default function FormLogin() {
           >
             Sign Up
           </Button>
-          <p className="text-center text-sm mt-1">
-                You already have an account?{' '}
+          <p className="flex items-center justify-center gap-2 text-sm mt-1">
+            <span className="text-white">You already have an account?</span>
             <Link href={"/login"} className="text-orange-500 hover:underline">
-            Log in
+              Log in
             </Link>
-            </p>
+          </p>
         </form>
       </Form>
     </Card>

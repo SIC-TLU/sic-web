@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function LogoSIC() {
+export default function LogoSICRegister() {
   return (
     <div className="w-auto">
       {/* Logo Section */}
@@ -17,9 +17,9 @@ export default function LogoSIC() {
       {/* Welcome Text */}
       <div>
         <h1 className="text-white text-3xl font-semibold mb-3">
-          Welcome back to <span className="text-orange-500">SIC</span>
+          Welcome to the <span className="text-orange-500">SIC</span>
         </h1>
-        <p className="text-white text-sm">Student help student master technology</p>
+        <p className="text-white text-sm">Sign up to get ready for an exciting journey with SIC</p>
       </div>
     </div>
   );
