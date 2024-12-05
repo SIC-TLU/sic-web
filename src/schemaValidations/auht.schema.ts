@@ -45,3 +45,13 @@ export const registerForm = z.object({
 })
 
 export type RegisterFormType = z.TypeOf<typeof registerForm>
+
+// Verify account
+
+export const verifyAccountBody = z.object({
+  username: z.string(),
+  codeId: z.string(),
+})
+
+export type VerifyAccountBodyType = z.TypeOf<typeof verifyAccountBody>
+

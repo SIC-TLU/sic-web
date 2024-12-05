@@ -10,6 +10,7 @@ export default function LogoSICRegister() {
           alt="SIC Logo"
           width={100}
           height={10}
+          priority
           className="h-[106px] w-[136px]"
         />
       </div>
