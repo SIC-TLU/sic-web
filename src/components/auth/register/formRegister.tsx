@@ -20,9 +20,11 @@ import { registerForm, RegisterFormType } from "@/schemaValidations/auht.schema"
 import authApiRequest from "@/apiRequest/auth";
 import { showInfoToast } from "@/lib/ultils-client";
 import { useRouter } from "next/navigation";
+import { useAuthContext } from "../AuthProvider";
 
 export default function RegisterForm() {
   const router = useRouter()
+  const { setUsername } = useAuthContext()
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setshowConfirmPassword] = useState(false);
 
@@ -49,12 +51,14 @@ export default function RegisterForm() {
   //Define a submit handler
   async function onSubmit(values: RegisterFormType) {
     const { username, email, password } = values
+    setUsername(username)
+
     const result = await authApiRequest.register({ username, email, password })
 
     if (result?.data) {
       localStorage.setItem("userId", JSON.stringify(result.data._id))
       showInfoToast({ description: result.message as string })
-      router.push("/auth/verify")
+      router.push("/auth/verify-account")
     }
   }
 
@@ -193,7 +197,7 @@ export default function RegisterForm() {
           </Button>
           <p className="flex items-center justify-center gap-2 text-sm mt-1">
             <span className="text-white">You already have an account?</span>
-            <Link href={"/login"} className="text-orange-500 hover:underline">
+            <Link href={"/auth/login"} className="text-orange-500 hover:underline">
               Log in
             </Link>
           </p>
