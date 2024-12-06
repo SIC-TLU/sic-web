@@ -47,7 +47,6 @@ export const registerForm = z.object({
 export type RegisterFormType = z.TypeOf<typeof registerForm>
 
 // Verify account
-
 export const verifyAccountBody = z.object({
   username: z.string(),
   codeId: z.string(),
@@ -55,3 +54,7 @@ export const verifyAccountBody = z.object({
 
 export type VerifyAccountBodyType = z.TypeOf<typeof verifyAccountBody>
 
+// Resend code
+export const resendCodeBody = z.string().email()
+
+export type ResendCodeBodyType = z.TypeOf<typeof resendCodeBody>
